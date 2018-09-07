@@ -1,20 +1,20 @@
 //
-//  OscControl.cpp
+//  ofxOscControl.cpp
 //  lightFixtures-osc
 //
 //  Created by Nestor Rubio Garcia on 26/04/2018.
 //
 
-#include "OscControl.h"
+#include "ofxOscControl.h"
 
-OscControl::OscControl() { }
+ofxOscControl::ofxOscControl() { }
 
-void OscControl::setup(int localPort) {
+void ofxOscControl::setup(int localPort) {
     this->localPort = localPort;
     receiver.setup(localPort);
 }
 
-void OscControl::addParameterGroup(ofParameterGroup *parameters) {
+void ofxOscControl::addParameterGroup(ofParameterGroup *parameters) {
     groups.push_back(parameters);
     
     // TODO:
@@ -26,11 +26,11 @@ void OscControl::addParameterGroup(ofParameterGroup *parameters) {
     //}
 }
 
-void OscControl::update() {
+void ofxOscControl::update() {
     processMessagesIn();
 }
 
-void OscControl::processMessagesIn() {
+void ofxOscControl::processMessagesIn() {
     while(receiver.hasWaitingMessages()){
         ofxOscMessage message;
         receiver.getNextMessage(&message);
@@ -71,7 +71,7 @@ void OscControl::processMessagesIn() {
     }
 }
 
-void OscControl::sendAllParameters(string remoteHostNmae, int remotePort) {
+void ofxOscControl::sendAllParameters(string remoteHostNmae, int remotePort) {
     ofxOscSender sender; // temporary sender (only lives in the scope of this function)
     sender.setup(remoteHostname, remotePort);
     for (auto group : groups) {
@@ -79,7 +79,7 @@ void OscControl::sendAllParameters(string remoteHostNmae, int remotePort) {
     }
 }
 
-ofAbstractParameter* OscControl::getGroupByName(const string &name) {
+ofAbstractParameter* ofxOscControl::getGroupByName(const string &name) {
     for (auto group : groups) {
         if(group->getName() == name) {
             return group;
@@ -89,6 +89,6 @@ ofAbstractParameter* OscControl::getGroupByName(const string &name) {
     return NULL;
 }
 
-int OscControl::getLocalPort() {
+int ofxOscControl::getLocalPort() {
     return localPort;
 }

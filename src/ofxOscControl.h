@@ -1,5 +1,5 @@
 //
-//  OscControl.hpp
+//  ofxOscControl.hpp
 //  lightFixtures-osc
 //
 //  Created by Nestor Rubio Garcia on 26/04/2018.
@@ -11,10 +11,10 @@
 #include "ofxOsc.h"
 
 
-class OscControl {
+class ofxOscControl {
     
 public:
-    OscControl();
+    ofxOscControl();
     
     void setup(int localPort);
     
