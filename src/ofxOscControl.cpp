@@ -71,9 +71,14 @@ void ofxOscControl::processMessagesIn() {
     }
 }
 
-void ofxOscControl::sendAllParameters(string remoteHostNmae, int remotePort) {
+
+// TODO:
+// if the parameterGroup is added to a gui panel, the osc address' first segment will be the name of the panel
+// or 'group' if you didn't set the name of the panel.
+// Fix this. We want the name of the group to be the first segment
+void ofxOscControl::sendAllParameters(string remoteHostName, int remotePort) {
     ofxOscSender sender; // temporary sender (only lives in the scope of this function)
-    sender.setup(remoteHostname, remotePort);
+    sender.setup(remoteHostName, remotePort);
     for (auto group : groups) {
         sender.sendParameter(*group);
     }

@@ -36,6 +36,6 @@ private:
     void processMessagesIn();
     
     int localPort;
-    string remoteHostname;
+    //string remoteHostname;
     int remotePort;
 };
