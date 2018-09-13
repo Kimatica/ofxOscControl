@@ -12,6 +12,9 @@ ofxOscControl::ofxOscControl() { }
 void ofxOscControl::setup(int localPort) {
     this->localPort = localPort;
     receiver.setup(localPort);
+    
+    remoteHostName = "localhost";
+    remotePort = 8000;
 }
 
 void ofxOscControl::addParameterGroup(ofParameterGroup *parameters) {
@@ -30,14 +33,29 @@ void ofxOscControl::update() {
     processMessagesIn();
 }
 
+void ofxOscControl::setRemoteHostName(string hostName){
+    remoteHostName = hostName;
+    cout << remoteHostName << endl;
+}
+
+void ofxOscControl::setRemotePort(string port){
+    remotePort = ofToInt(port);
+    cout << remotePort << endl;
+}
+
+
+
 void ofxOscControl::processMessagesIn() {
     while(receiver.hasWaitingMessages()){
+        
         ofxOscMessage message;
         receiver.getNextMessage(&message);
         vector<string> address = ofSplitString(message.getAddress(), "/", true);
         ofAbstractParameter * parameter = getGroupByName(address[0]);
         
-        //cout << ofToString(address) << endl;
+//        cout << address[0] << endl;
+        
+        cout << ofToString(address) << endl;
         
         if (parameter) {
             for (unsigned int i = 0; i < address.size(); i++) {
@@ -71,12 +89,11 @@ void ofxOscControl::processMessagesIn() {
     }
 }
 
-
 // TODO:
 // if the parameterGroup is added to a gui panel, the osc address' first segment will be the name of the panel
 // or 'group' if you didn't set the name of the panel.
 // Fix this. We want the name of the group to be the first segment
-void ofxOscControl::sendAllParameters(string remoteHostName, int remotePort) {
+void ofxOscControl::sendAllParameters() {
     ofxOscSender sender; // temporary sender (only lives in the scope of this function)
     sender.setup(remoteHostName, remotePort);
     for (auto group : groups) {

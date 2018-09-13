@@ -9,7 +9,7 @@
 
 #include "ofMain.h"
 #include "ofxOsc.h"
-
+#include "ofxGui.h"
 
 class ofxOscControl {
     
@@ -23,9 +23,13 @@ public:
     void addParameterGroup(ofParameterGroup *parameters);
     
     // usefull to expose all available addresses to external apps (eg: osculator)
-    void sendAllParameters(string remoteHostNmae, int remotePort);
+    void sendAllParameters();
     
     int getLocalPort();
+    
+    void onSendHostInfo();
+    void setRemoteHostName(string hostName);
+    void setRemotePort(string port);
     
 private:
     ofxOscReceiver receiver;
@@ -36,6 +40,9 @@ private:
     void processMessagesIn();
     
     int localPort;
+
     //string remoteHostname;
+
     int remotePort;
+    string remoteHostName;
 };
